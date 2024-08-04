@@ -57,16 +57,16 @@ class ProgressMeter
         ProgressMeter(std::size_t length,
                       std::size_t maximum_width = Default_Maximum_Width);
         virtual ~ProgressMeter();
-        bool IsRendering();
+        bool IsRendering() const noexcept;
         void Start();
         void Update(std::size_t position);
         void Stop();
 
     protected:
         void DrawBlankMeter();
-        void ClearLine();
-        std::string MeterTip();
-        std::string MeterFill();
+        void ClearLine() const;
+        std::string MeterTip() const;
+        std::string MeterFill() const;
 
         bool utf8_capable;
         const std::size_t length;

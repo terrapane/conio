@@ -24,8 +24,8 @@ namespace Terra::ConIO::ANSI
 namespace
 {
 
-const std::string CSI = "\033[";
-const std::string SGRT = "m";
+const char *CSI = "\033[";
+const char *SGRT = "m";
 
 }
 
@@ -46,7 +46,7 @@ const std::string SGRT = "m";
  */
 std::string Reset()
 {
-    return CSI + "0" + SGRT;
+    return std::string(CSI) + "0" + SGRT;
 }
 
 /*
@@ -66,7 +66,7 @@ std::string Reset()
  */
 std::string Bold()
 {
-    return CSI + "1" + SGRT;
+    return std::string(CSI) + "1" + SGRT;
 }
 
 /*
@@ -86,7 +86,7 @@ std::string Bold()
  */
 std::string Faint()
 {
-    return CSI + "2" + SGRT;
+    return std::string(CSI) + "2" + SGRT;
 }
 
 /*
@@ -106,7 +106,7 @@ std::string Faint()
  */
 std::string Italic()
 {
-    return CSI + "3" + SGRT;
+    return std::string(CSI) + "3" + SGRT;
 }
 
 /*
@@ -126,7 +126,7 @@ std::string Italic()
  */
 std::string Underline()
 {
-    return CSI + "4" + SGRT;
+    return std::string(CSI) + "4" + SGRT;
 }
 
 /*
@@ -146,7 +146,7 @@ std::string Underline()
  */
 std::string SlowBlink()
 {
-    return CSI + "5" + SGRT;
+    return std::string(CSI) + "5" + SGRT;
 }
 
 /*
@@ -166,7 +166,7 @@ std::string SlowBlink()
  */
 std::string RapidBlink()
 {
-    return CSI + "6" + SGRT;
+    return std::string(CSI) + "6" + SGRT;
 }
 
 /*
@@ -186,7 +186,7 @@ std::string RapidBlink()
  */
 std::string ReverseVideo()
 {
-    return CSI + "7" + SGRT;
+    return std::string(CSI) + "7" + SGRT;
 }
 
 /*
@@ -206,7 +206,7 @@ std::string ReverseVideo()
  */
 std::string Conceal()
 {
-    return CSI + "8" + SGRT;
+    return std::string(CSI) + "8" + SGRT;
 }
 
 /*
@@ -226,7 +226,7 @@ std::string Conceal()
  */
 std::string Strike()
 {
-    return CSI + "9" + SGRT;
+    return std::string(CSI) + "9" + SGRT;
 }
 
 /*
@@ -246,7 +246,7 @@ std::string Strike()
  */
 std::string DoubleUnderline()
 {
-    return CSI + "21" + SGRT;
+    return std::string(CSI) + "21" + SGRT;
 }
 
 /*
@@ -266,7 +266,7 @@ std::string DoubleUnderline()
  */
 std::string NormalIntensity()
 {
-    return CSI + "22" + SGRT;
+    return std::string(CSI) + "22" + SGRT;
 }
 
 /*
@@ -286,7 +286,7 @@ std::string NormalIntensity()
  */
 std::string NormalFont()
 {
-    return CSI + "23" + SGRT;
+    return std::string(CSI) + "23" + SGRT;
 }
 
 /*
@@ -306,7 +306,7 @@ std::string NormalFont()
  */
 std::string NoUnderline()
 {
-    return CSI + "24" + SGRT;
+    return std::string(CSI) + "24" + SGRT;
 }
 
 /*
@@ -326,7 +326,7 @@ std::string NoUnderline()
  */
 std::string NoBlink()
 {
-    return CSI + "25" + SGRT;
+    return std::string(CSI) + "25" + SGRT;
 }
 
 /*
@@ -346,7 +346,7 @@ std::string NoBlink()
  */
 std::string NoReverseVideo()
 {
-    return CSI + "27" + SGRT;
+    return std::string(CSI) + "27" + SGRT;
 }
 
 /*
@@ -366,7 +366,7 @@ std::string NoReverseVideo()
  */
 std::string NoConceal()
 {
-    return CSI + "28" + SGRT;
+    return std::string(CSI) + "28" + SGRT;
 }
 
 /*
@@ -386,7 +386,7 @@ std::string NoConceal()
  */
 std::string NoStrike()
 {
-    return CSI + "29" + SGRT;
+    return std::string(CSI) + "29" + SGRT;
 }
 
 /*
@@ -406,7 +406,7 @@ std::string NoStrike()
  */
 std::string Black()
 {
-    return CSI + "30" + SGRT;
+    return std::string(CSI) + "30" + SGRT;
 }
 
 /*
@@ -447,7 +447,7 @@ std::string Gray()
  */
 std::string Red()
 {
-    return CSI + "31" + SGRT;
+    return std::string(CSI) + "31" + SGRT;
 }
 
 /*
@@ -467,7 +467,7 @@ std::string Red()
  */
 std::string Green()
 {
-    return CSI + "32" + SGRT;
+    return std::string(CSI) + "32" + SGRT;
 }
 
 /*
@@ -487,7 +487,7 @@ std::string Green()
  */
 std::string Yellow()
 {
-    return CSI + "33" + SGRT;
+    return std::string(CSI) + "33" + SGRT;
 }
 
 /*
@@ -507,7 +507,7 @@ std::string Yellow()
  */
 std::string Blue()
 {
-    return CSI + "34" + SGRT;
+    return std::string(CSI) + "34" + SGRT;
 }
 
 /*
@@ -527,7 +527,7 @@ std::string Blue()
  */
 std::string Magenta()
 {
-    return CSI + "35" + SGRT;
+    return std::string(CSI) + "35" + SGRT;
 }
 
 /*
@@ -547,7 +547,7 @@ std::string Magenta()
  */
 std::string Cyan()
 {
-    return CSI + "36" + SGRT;
+    return std::string(CSI) + "36" + SGRT;
 }
 
 /*
@@ -567,7 +567,7 @@ std::string Cyan()
  */
 std::string White()
 {
-    return CSI + "37" + SGRT;
+    return std::string(CSI) + "37" + SGRT;
 }
 
 /*
@@ -587,7 +587,7 @@ std::string White()
  */
 std::string Default()
 {
-    return CSI + "39" + SGRT;
+    return std::string(CSI) + "39" + SGRT;
 }
 
 /*
@@ -607,7 +607,7 @@ std::string Default()
  */
 std::string BlackBackground()
 {
-    return CSI + "40" + SGRT;
+    return std::string(CSI) + "40" + SGRT;
 }
 
 /*
@@ -627,7 +627,7 @@ std::string BlackBackground()
  */
 std::string RedBackground()
 {
-    return CSI + "41" + SGRT;
+    return std::string(CSI) + "41" + SGRT;
 }
 
 /*
@@ -647,7 +647,7 @@ std::string RedBackground()
  */
 std::string GreenBackground()
 {
-    return CSI + "42" + SGRT;
+    return std::string(CSI) + "42" + SGRT;
 }
 
 /*
@@ -667,7 +667,7 @@ std::string GreenBackground()
  */
 std::string YellowBackground()
 {
-    return CSI + "43" + SGRT;
+    return std::string(CSI) + "43" + SGRT;
 }
 
 /*
@@ -687,7 +687,7 @@ std::string YellowBackground()
  */
 std::string BlueBackground()
 {
-    return CSI + "44" + SGRT;
+    return std::string(CSI) + "44" + SGRT;
 }
 
 /*
@@ -707,7 +707,7 @@ std::string BlueBackground()
  */
 std::string MagentaBackground()
 {
-    return CSI + "45" + SGRT;
+    return std::string(CSI) + "45" + SGRT;
 }
 
 /*
@@ -727,7 +727,7 @@ std::string MagentaBackground()
  */
 std::string CyanBackground()
 {
-    return CSI + "46" + SGRT;
+    return std::string(CSI) + "46" + SGRT;
 }
 
 /*
@@ -747,7 +747,7 @@ std::string CyanBackground()
  */
 std::string WhiteBackground()
 {
-    return CSI + "47" + SGRT;
+    return std::string(CSI) + "47" + SGRT;
 }
 
 /*
@@ -767,7 +767,7 @@ std::string WhiteBackground()
  */
 std::string HideCursor()
 {
-    return CSI + "?25l";
+    return std::string(CSI) + "?25l";
 }
 
 /*
@@ -787,7 +787,7 @@ std::string HideCursor()
  */
 std::string ShowCursor()
 {
-    return CSI + "?25h";
+    return std::string(CSI) + "?25h";
 }
 
 /*
@@ -807,7 +807,7 @@ std::string ShowCursor()
  */
 std::string ClearLineToEnd()
 {
-    return CSI + "0K";
+    return std::string(CSI) + "0K";
 }
 
 /*
@@ -827,7 +827,7 @@ std::string ClearLineToEnd()
  */
 std::string ClearLineAll()
 {
-    return CSI + "2K";
+    return std::string(CSI) + "2K";
 }
 
 /*
@@ -1902,7 +1902,7 @@ std::string Background(Color color)
  */
 std::string SelectGraphicRendition(SGR sgr)
 {
-    return CSI + std::to_string(static_cast<std::uint8_t>(sgr)) + SGRT;
+    return std::string(CSI) + std::to_string(static_cast<std::uint8_t>(sgr)) + SGRT;
 }
 
 /*
@@ -1945,7 +1945,7 @@ std::string SGRAndColor(SGR sgr, Color background, Color foreground)
  */
 std::string ColorBG256(std::uint8_t color)
 {
-    return CSI + "48;5;" + std::to_string(color) + SGRT;
+    return std::string(CSI) + "48;5;" + std::to_string(color) + SGRT;
 }
 
 /*
@@ -1966,7 +1966,7 @@ std::string ColorBG256(std::uint8_t color)
  */
 std::string ColorFG256(std::uint8_t color)
 {
-    return CSI + "38;5;" + std::to_string(color) + SGRT;
+    return std::string(CSI) + "38;5;" + std::to_string(color) + SGRT;
 
 }
 
@@ -1990,7 +1990,7 @@ std::string ColorBG24Bit(std::uint8_t red,
                          std::uint8_t green,
                          std::uint8_t blue)
 {
-    return CSI + "48;2;" + std::to_string(red) + ";" +
+    return std::string(CSI) + "48;2;" + std::to_string(red) + ";" +
            std::to_string(green) + ";" + std::to_string(blue) +
            SGRT;
 }
@@ -2015,7 +2015,7 @@ std::string ColorFG24Bit(std::uint8_t red,
                          std::uint8_t green,
                          std::uint8_t blue)
 {
-    return CSI + "38;2;" + std::to_string(red) + ";" +
+    return std::string(CSI) + "38;2;" + std::to_string(red) + ";" +
            std::to_string(green) + ";" + std::to_string(blue) +
            SGRT;
 }

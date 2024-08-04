@@ -18,6 +18,9 @@ endif()
 # Option to control ability to install the library
 option(conio_INSTALL "Install the Console I/O Library" ON)
 
+# Determine whether clang-tidy will be performed
+option(conio_CLANG_TIDY "Use clang-tidy to perform linting during build" OFF)
+
 add_subdirectory(dependencies)
 add_subdirectory(src)
 

@@ -73,7 +73,8 @@ constexpr char Backspace = 0x08;
  *      Nothing.
  *
  *  Comments:
- *      None.
+ *      On Linux or Mac, this function may not be thread safe since it calls
+ *      nl_langinfo().
  */
 ProgressMeter::ProgressMeter(std::size_t length,
                              std::size_t maximum_width) :
@@ -148,7 +149,7 @@ ProgressMeter::~ProgressMeter()
  *  Comments:
  *      None.
  */
-bool ProgressMeter::IsRendering()
+bool ProgressMeter::IsRendering() const noexcept
 {
     return render;
 }
@@ -239,8 +240,10 @@ void ProgressMeter::Update(std::size_t position)
 
     // Determine the meter tip location (note this may be one beyond the
     // meter length, in which case there is no tip to show)
-    std::size_t location =
-        ((static_cast<double>(position) / length) * (meter_width - 2)) + 1;
+    std::size_t location = static_cast<std::size_t>(
+        ((static_cast<double>(position) / static_cast<double>(length)) *
+         (static_cast<double>(meter_width) - 2)) +
+        1);
 
     // If the meter tip position did not change and redraw not required, return
     if (!redraw_required && (location == last_location)) return;
@@ -372,7 +375,7 @@ void ProgressMeter::DrawBlankMeter()
  *      output will follow.  If there is no additional output, the caller should
  *      flush the output stream.
  */
-void ProgressMeter::ClearLine()
+void ProgressMeter::ClearLine() const
 {
     // If not rendering, return
     if (!render) return;
@@ -402,7 +405,7 @@ void ProgressMeter::ClearLine()
  *  Comments:
  *      None.
  */
-std::string ProgressMeter::MeterTip()
+std::string ProgressMeter::MeterTip() const
 {
     // Render using right-pointing triangle character when using UTF-8
     if (utf8_capable) return "\xe2\x96\xb8";
@@ -428,7 +431,7 @@ std::string ProgressMeter::MeterTip()
  *  Comments:
  *      None.
  */
-std::string ProgressMeter::MeterFill()
+std::string ProgressMeter::MeterFill() const
 {
     // Render using a block character when using UTF-8
     if (utf8_capable) return ANSI::Blue() + "\xe2\x96\xa0" + ANSI::Reset();

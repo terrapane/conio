@@ -18,11 +18,11 @@
 
 #ifdef _WIN32
 #include <Windows.h>
-#include <stdio.h>  // For _fileno()
+#include <stdio.h>      // For _fileno()
 #elif defined(__linux__) || defined(__APPLE__)
-#include <unistd.h> // For STDOUT_FILENO / STDERR_FILENO
-#include <stdlib.h> // For getenv()
-#include <string.h> // For strcmp()
+#include <unistd.h>     // For STDOUT_FILENO / STDERR_FILENO
+#include <cstdlib>      // For getenv()
+#include <cstring>      // For strcmp()
 #endif
 #include <terra/conio/ansi_capable.h>
 #include <terra/conio/utilities.h>
@@ -65,40 +65,44 @@ namespace Terra::ConIO
  *      output by default.  One must first call EnableStdoutANSIOutput()
  *      or EnableStderrANSIOutput() to enable virtual terminal processing.
  *      However, this function can then be used to verify that it is enabled.
+ *
+ *      On Linux or Mac, this function may not be thread safe since it calls
+ *      getenv().
  */
 bool IsANSICapable(int fd)
 {
 #if defined(_WIN32)
-    // If this is a terminal, we can proceed with other checks
-    if (IsTerminal(fd))
+
+    HANDLE handle_to_console{};
+    DWORD console_mode{};
+
+    // If this is not a terminal, return false
+    if (!IsTerminal(fd)) return false;
+
+    // Get the handle associated with the fd
+    if (fd == _fileno(stdout))
     {
-        HANDLE handle_to_console;
-        DWORD console_mode;
-
-        // Get the handle associated with the fd
-        if (fd == _fileno(stdout))
-        {
-            // We need to ensure the terminal outputs ANSI codes
-            handle_to_console = GetStdHandle(STD_OUTPUT_HANDLE);
-        }
-        else if (fd == _fileno(stderr))
-        {
-            // We need to ensure the terminal outputs ANSI codes
-            handle_to_console = GetStdHandle(STD_ERROR_HANDLE);
-        }
-        else
-        {
-            return false;
-        }
-
-        // Check that virtual terminal processing is enabled (has ANSI support)
-        if (GetConsoleMode(handle_to_console, &console_mode))
-        {
-            return (console_mode & ENABLE_VIRTUAL_TERMINAL_PROCESSING) != 0;
-        }
-
+        // We need to ensure the terminal outputs ANSI codes
+        handle_to_console = GetStdHandle(STD_OUTPUT_HANDLE);
+    }
+    else if (fd == _fileno(stderr))
+    {
+        // We need to ensure the terminal outputs ANSI codes
+        handle_to_console = GetStdHandle(STD_ERROR_HANDLE);
+    }
+    else
+    {
         return false;
     }
+
+    // Check that virtual terminal processing is enabled (has ANSI support)
+    if (GetConsoleMode(handle_to_console, &console_mode))
+    {
+        return (console_mode & ENABLE_VIRTUAL_TERMINAL_PROCESSING) != 0;
+    }
+
+    return false;
+
 #elif defined (__linux__) || defined(__APPLE__)
     // If this is not a terminal, return false
     if (!IsTerminal(fd)) return false;
@@ -107,11 +111,13 @@ bool IsANSICapable(int fd)
     const char *term_type = getenv("TERM");
 
     // If TERM is defined and it's not "dumb", one can ANSI the output
-    if (term_type && (strcmp(term_type, "dumb") != 0)) return true;
-#endif
+    return ((term_type != nullptr) && (strcmp(term_type, "dumb") != 0));
 
-    // Reaching this point means the device is not ANSI-capable
+#else
+
     return false;
+
+#endif
 }
 
 /*
@@ -204,7 +210,7 @@ bool EnableStdOutANSIOutput()
         console_mode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
 
         // Attempt to enable virtual terminal processing
-        if (SetConsoleMode(handle_to_console, console_mode)) return true;
+        SetConsoleMode(handle_to_console, console_mode);
     }
 #endif
 

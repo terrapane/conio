@@ -21,8 +21,8 @@
 #include <stdio.h>      // For _fileno()
 #elif defined(__linux__) || defined(__APPLE__)
 #include <unistd.h>     // For isatty()
-#include <stdlib.h>     // For getenv()
-#include <string.h>     // For strcmp()
+#include <cstdlib>      // For getenv()
+#include <cstring>      // For strcmp()
 #include <sys/ioctl.h>
 #endif
 #include <terra/conio/utilities.h>
@@ -53,17 +53,14 @@ bool IsTerminal(int fd)
 #if defined(_WIN32)
 
     // If this is a terminal / TTY, then return true
-    if (_isatty(fd)) return true;
+    return (_isatty(fd) != 0);
 
 #elif defined (__linux__) || defined(__APPLE__)
 
     // If this is a terminal / TTY, return true
-    if (isatty(fd)) return true;
+    return (isatty(fd) != 0);
 
 #endif
-
-    // Reaching this point means the device is not a terminal / TTY
-    return false;
 }
 
 /*
@@ -172,7 +169,7 @@ std::pair<std::size_t, std::size_t> GetTerminalDimensions()
 
 #elif defined (__linux__) || defined(__APPLE__)
 
-    struct winsize window_size;
+    struct winsize window_size{};
 
     if (ioctl(STDOUT_FILENO, TIOCGWINSZ, &window_size) == 0)
     {
