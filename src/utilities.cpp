@@ -19,7 +19,7 @@
 #include <Windows.h>    // For GetStdHandle()
 #include <io.h>         // For _isatty()
 #include <stdio.h>      // For _fileno()
-#elif defined(__linux__) || defined(__APPLE__)
+#elif defined(__linux__) || defined(__FreeBSD__) || defined(__APPLE__)
 #include <unistd.h>     // For isatty()
 #include <cstdlib>      // For getenv()
 #include <cstring>      // For strcmp()
@@ -46,7 +46,7 @@ namespace Terra::ConIO
  *
  *  Comments:
  *      This will also return false if the platform is not supported.  Supported
- *      platforms include Windows, Linux, and Mac.
+ *      platforms include Windows, Linux/Unix, and Mac.
  */
 bool IsTerminal(int fd)
 {
@@ -55,7 +55,7 @@ bool IsTerminal(int fd)
     // If this is a terminal / TTY, then return true
     return (_isatty(fd) != 0);
 
-#elif defined (__linux__) || defined(__APPLE__)
+#elif defined (__linux__) || defined(__FreeBSD__) || defined(__APPLE__)
 
     // If this is a terminal / TTY, return true
     return (isatty(fd) != 0);
@@ -77,7 +77,7 @@ bool IsTerminal(int fd)
  *
  *  Comments:
  *      This will also return false if the platform is not supported.  Supported
- *      platforms include Windows, Linux, and Mac.
+ *      platforms include Windows, Linux/Unix, and Mac.
  */
 bool IsStdOutTerminal()
 {
@@ -85,7 +85,7 @@ bool IsStdOutTerminal()
 
     return IsTerminal(_fileno(stdout));
 
-#elif defined (__linux__) || defined(__APPLE__)
+#elif defined (__linux__) || defined(__FreeBSD__) || defined(__APPLE__)
 
     return IsTerminal(STDOUT_FILENO);
 
@@ -110,7 +110,7 @@ bool IsStdOutTerminal()
  *
  *  Comments:
  *      This will also return false if the platform is not supported.  Supported
- *      platforms include Windows, Linux, and Mac.
+ *      platforms include Windows, Linux/Unix, and Mac.
  */
 bool IsStdErrTerminal()
 {
@@ -118,7 +118,7 @@ bool IsStdErrTerminal()
 
     return IsTerminal(_fileno(stderr));
 
-#elif defined (__linux__) || defined(__APPLE__)
+#elif defined (__linux__) || defined(__FreeBSD__) || defined(__APPLE__)
 
     return IsTerminal(STDERR_FILENO);
 
@@ -167,7 +167,7 @@ std::pair<std::size_t, std::size_t> GetTerminalDimensions()
                 screen_buffer.srWindow.Bottom - screen_buffer.srWindow.Top + 1};
     }
 
-#elif defined (__linux__) || defined(__APPLE__)
+#elif defined (__linux__) || defined(__FreeBSD__) || defined(__APPLE__)
 
     struct winsize window_size{};
 

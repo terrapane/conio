@@ -36,9 +36,9 @@
  *      residue appearing on the lines (and multiple lines)  Disabling line
  *      wrapping, both via SetConsoleMode() and via ANSI sequences, did not
  *      resolve the issue.  Further, the same issue is presented when using
- *      Windows Terminal and using SSH to a remote Linux machine.  In that case,
- *      SetConsoleMode() would have no effect, anyway.  Therefore, it is best
- *      to just use relatively short progress meters to avoid the wrapping
+ *      Windows Terminal and using SSH to a remote Linux/Unix machine.  In that
+ *      case, SetConsoleMode() would have no effect, anyway.  Therefore, it is
+ *      best to just use relatively short progress meters to avoid the wrapping
  *      issue.
  */
 

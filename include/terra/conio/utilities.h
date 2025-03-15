@@ -39,7 +39,7 @@ namespace Terra::ConIO
  *
  *  Comments:
  *      This will also return false if the platform is not supported.  Supported
- *      platforms include Windows, Linux, and Mac.
+ *      platforms include Windows, Linux/Unix, and Mac.
  */
 bool IsTerminal(int fd);
 
@@ -57,7 +57,7 @@ bool IsTerminal(int fd);
  *
  *  Comments:
  *      This will also return false if the platform is not supported.  Supported
- *      platforms include Windows, Linux, and Mac.
+ *      platforms include Windows, Linux/Unix, and Mac.
  */
 bool IsStdOutTerminal();
 
@@ -75,7 +75,7 @@ bool IsStdOutTerminal();
  *
  *  Comments:
  *      This will also return false if the platform is not supported.  Supported
- *      platforms include Windows, Linux, and Mac.
+ *      platforms include Windows, Linux/Unix, and Mac.
  */
 bool IsStdErrTerminal();
 

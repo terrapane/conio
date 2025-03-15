@@ -19,7 +19,7 @@
 #ifdef _WIN32
 #include <Windows.h>
 #include <stdio.h>      // For _fileno()
-#elif defined(__linux__) || defined(__APPLE__)
+#elif defined(__linux__) || defined(__FreeBSD__) || defined(__APPLE__)
 #include <unistd.h>     // For STDOUT_FILENO / STDERR_FILENO
 #include <cstdlib>      // For getenv()
 #include <cstring>      // For strcmp()
@@ -40,7 +40,8 @@ namespace Terra::ConIO
  *      a terminal and, if it is, whether or not it's a dumb terminal.  Anything
  *      other than a dumb terminal is assumed to be ANSI-capable.  This
  *      approach may not work for legacy devices, but it works for all modern
- *      systems when the routine was written, including Linux, Windows, and Mac.
+ *      systems when the routine was written, including Linux/Unix, Windows, and
+ *      Mac.
  *
  *  Parameters:
  *      fd [in]
@@ -66,7 +67,7 @@ namespace Terra::ConIO
  *      or EnableStderrANSIOutput() to enable virtual terminal processing.
  *      However, this function can then be used to verify that it is enabled.
  *
- *      On Linux or Mac, this function may not be thread safe since it calls
+ *      On Linux/Unix/Mac, this function may not be thread safe since it calls
  *      getenv().
  */
 bool IsANSICapable(int fd)
@@ -103,7 +104,7 @@ bool IsANSICapable(int fd)
 
     return false;
 
-#elif defined (__linux__) || defined(__APPLE__)
+#elif defined (__linux__) || defined(__FreeBSD__) || defined(__APPLE__)
     // If this is not a terminal, return false
     if (!IsTerminal(fd)) return false;
 
@@ -140,7 +141,7 @@ bool IsStdOutANSICapable()
 {
 #if defined(_WIN32)
     return IsANSICapable(_fileno(stdout));
-#elif defined (__linux__) || defined(__APPLE__)
+#elif defined (__linux__) || defined(__FreeBSD__) || defined(__APPLE__)
     return IsANSICapable(STDOUT_FILENO);
 #else
     return false;
@@ -167,7 +168,7 @@ bool IsStdErrANSICapable()
 {
 #if defined(_WIN32)
     return IsANSICapable(_fileno(stderr));
-#elif defined (__linux__) || defined(__APPLE__)
+#elif defined (__linux__) || defined(__FreeBSD__) || defined(__APPLE__)
     return IsANSICapable(STDERR_FILENO);
 #else
     return false;

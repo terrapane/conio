@@ -20,7 +20,7 @@
 
 #include <iostream>
 #include <algorithm>
-#if defined (__linux__) || defined(__APPLE__)
+#if defined (__linux__) || defined(__FreeBSD__) || defined(__APPLE__)
 #include <langinfo.h>
 #elif defined (_WIN32)
 #define NOMINMAX
@@ -73,7 +73,7 @@ constexpr char Backspace = 0x08;
  *      Nothing.
  *
  *  Comments:
- *      On Linux or Mac, this function may not be thread safe since it calls
+ *      On Linux/Unix/Mac, this function may not be thread safe since it calls
  *      nl_langinfo().
  */
 ProgressMeter::ProgressMeter(std::size_t length,

@@ -28,10 +28,10 @@ namespace Terra::ConIO
  *      This function will determine if it is possible to send ANSI escape
  *      sequences to the specified output device.  This function checks to see
  *      if the file descriptor is directed to a terminal and, if it is, whether
- *      or not it's a dumb terminal.  On Linux, anything other than a dumb
+ *      or not it's a dumb terminal.  On Linux/Unix, anything other than a dumb
  *      terminal is assumed to be ANSI-capable.  This approach may not work for
  *      legacy devices, but it works for all modern systems when the routine
- *      was written, including Linux, Windows, and Mac.
+ *      was written, including Linux/Unix, Windows, and Mac.
  *
  *  Parameters:
  *      fd [in]
