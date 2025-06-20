@@ -62,6 +62,10 @@ bool IsTerminal(int fd)
     // If this is a terminal / TTY, return true
     return (isatty(fd) != 0);
 
+#else
+
+    return false;
+
 #endif
 }
 
@@ -129,6 +133,7 @@ bool IsStdErrTerminal()
 #else
 
     return false;
+
 #endif
 }
 
