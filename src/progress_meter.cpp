@@ -20,7 +20,8 @@
 
 #include <iostream>
 #include <algorithm>
-#if defined (__linux__) || defined(__FreeBSD__) || defined(__APPLE__)
+#if defined (__linux__) || defined(__FreeBSD__) || defined(__OpenBSD__) || \
+    defined(__APPLE__)
 #include <langinfo.h>
 #elif defined (_WIN32)
 #define NOMINMAX

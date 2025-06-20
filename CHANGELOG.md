@@ -1,5 +1,9 @@
 # Change Log
 
+v1.0.4
+
+- Updated to support builds on OpenBSD
+
 v1.0.3
 
 - Updated dependencies
