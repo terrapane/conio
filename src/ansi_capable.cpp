@@ -19,8 +19,7 @@
 #ifdef _WIN32
 #include <Windows.h>
 #include <stdio.h>      // For _fileno()
-#elif defined(__linux__) || defined(__FreeBSD__) || defined(__OpenBSD__) || \
-      defined(__APPLE__)
+#elif defined(__unix__) || defined(__APPLE__)
 #include <unistd.h>     // For STDOUT_FILENO / STDERR_FILENO
 #include <cstdlib>      // For getenv()
 #include <cstring>      // For strcmp()
@@ -105,8 +104,7 @@ bool IsANSICapable(int fd)
 
     return false;
 
-#elif defined (__linux__) || defined(__FreeBSD__) || defined(__OpenBSD__) || \
-      defined(__APPLE__)
+#elif defined (__unix__) || defined(__APPLE__)
     // If this is not a terminal, return false
     if (!IsTerminal(fd)) return false;
 
@@ -143,8 +141,7 @@ bool IsStdOutANSICapable()
 {
 #if defined(_WIN32)
     return IsANSICapable(_fileno(stdout));
-#elif defined (__linux__) || defined(__FreeBSD__) || defined(__OpenBSD__) || \
-      defined(__APPLE__)
+#elif defined(__unix__) || defined(__APPLE__)
     return IsANSICapable(STDOUT_FILENO);
 #else
     return false;
@@ -171,8 +168,7 @@ bool IsStdErrANSICapable()
 {
 #if defined(_WIN32)
     return IsANSICapable(_fileno(stderr));
-#elif defined (__linux__) || defined(__FreeBSD__) || defined(__OpenBSD__) || \
-      defined(__APPLE__)
+#elif defined(__unix__) || defined(__APPLE__)
     return IsANSICapable(STDERR_FILENO);
 #else
     return false;

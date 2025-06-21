@@ -2,7 +2,8 @@
 
 v1.0.4
 
-- Updated to support builds on OpenBSD
+- Updated to support builds additional UNIX-like systems by changing the #ifdef
+  checks with a check for \_\_unix\_\_.
 
 v1.0.3
 
