@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.21)
 
 # Define the Console I/O Library Project
 project(conio
-        VERSION 1.0.4.0
+        VERSION 1.0.5.0
         DESCRIPTION "Console I/O Library"
         LANGUAGES CXX)
 
@@ -21,10 +21,11 @@ option(conio_INSTALL "Install the Console I/O Library" ON)
 # Determine whether clang-tidy will be performed
 option(conio_CLANG_TIDY "Use clang-tidy to perform linting during build" OFF)
 
+# Ensure testing is enabled to surface tests in dependencies
+include(CTest)
+
 add_subdirectory(dependencies)
 add_subdirectory(src)
-
-include(CTest)
 
 if(BUILD_TESTING AND conio_BUILD_TESTS)
     add_subdirectory(ansi)
