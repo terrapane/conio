@@ -12,8 +12,8 @@ v1.0.5
 
 v1.0.4
 
-- Updated to support builds additional UNIX-like systems by changing the #ifdef
-  checks with a check for \_\_unix\_\_.
+- Updated to support builds additional UNIX-like systems by changing the
+  `#ifdef` checks with a check for `__unix__`.
 
 v1.0.3
 
