@@ -6,8 +6,6 @@ target_link_libraries(show_progress PRIVATE Terra::conio)
 
 # Make project include directory available to external projects
 target_include_directories(show_progress
-    PRIVATE
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
     PUBLIC
         $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>)
 
