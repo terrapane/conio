@@ -50,7 +50,7 @@ namespace Terra::ConIO
  */
 bool IsTerminal(int fd)
 {
-#if defined(_WIN32)
+#ifdef _WIN32
 
     // If this is a terminal / TTY, then return true
     return (_isatty(fd) != 0);
@@ -85,7 +85,7 @@ bool IsTerminal(int fd)
  */
 bool IsStdOutTerminal()
 {
-#if defined(_WIN32)
+#ifdef _WIN32
 
     return IsTerminal(_fileno(stdout));
 
@@ -118,7 +118,7 @@ bool IsStdOutTerminal()
  */
 bool IsStdErrTerminal()
 {
-#if defined(_WIN32)
+#ifdef _WIN32
 
     return IsTerminal(_fileno(stderr));
 
@@ -154,7 +154,7 @@ bool IsStdErrTerminal()
  */
 std::pair<std::size_t, std::size_t> GetTerminalDimensions()
 {
-#if defined(_WIN32)
+#ifdef _WIN32
 
     CONSOLE_SCREEN_BUFFER_INFO screen_buffer;
 

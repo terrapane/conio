@@ -72,7 +72,7 @@ namespace Terra::ConIO
  */
 bool IsANSICapable(int fd)
 {
-#if defined(_WIN32)
+#ifdef _WIN32
 
     HANDLE handle_to_console{};
     DWORD console_mode{};
@@ -109,7 +109,7 @@ bool IsANSICapable(int fd)
     if (!IsTerminal(fd)) return false;
 
     // Check the terminal type
-    const char *term_type = getenv("TERM");
+    const char *term_type = getenv("TERM"); // NOLINT(concurrency-mt-unsafe)
 
     // If TERM is defined and it's not "dumb", one can ANSI the output
     return ((term_type != nullptr) && (strcmp(term_type, "dumb") != 0));
@@ -139,7 +139,7 @@ bool IsANSICapable(int fd)
  */
 bool IsStdOutANSICapable()
 {
-#if defined(_WIN32)
+#ifdef _WIN32
     return IsANSICapable(_fileno(stdout));
 #elif defined(__unix__) || defined(__APPLE__)
     return IsANSICapable(STDOUT_FILENO);
@@ -166,7 +166,7 @@ bool IsStdOutANSICapable()
  */
 bool IsStdErrANSICapable()
 {
-#if defined(_WIN32)
+#ifdef _WIN32
     return IsANSICapable(_fileno(stderr));
 #elif defined(__unix__) || defined(__APPLE__)
     return IsANSICapable(STDERR_FILENO);

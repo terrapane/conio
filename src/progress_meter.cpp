@@ -103,6 +103,7 @@ ProgressMeter::ProgressMeter(std::size_t length,
     utf8_capable = (GetConsoleOutputCP() == CP_UTF8);
 #else
     // Determine if the locale supports UTF-8 output
+    // NOLINTNEXTLINE(concurrency-mt-unsafe)
     const std::string encoding = nl_langinfo(CODESET);
     utf8_capable = (encoding == "UTF-8");
 #endif

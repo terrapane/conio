@@ -1,5 +1,9 @@
 # Change Log
 
+v1.0.7
+
+- Changes to address clang-tidy nit
+
 v1.0.6
 
 - CMake changes
