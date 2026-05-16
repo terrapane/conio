@@ -1,7 +1,7 @@
 /*
  *  utilities.h
  *
- *  Copyright (C) 2024
+ *  Copyright (C) 2024, 2026
  *  Terrapane Corporation
  *  All Rights Reserved
  *
@@ -100,4 +100,4 @@ bool IsStdErrTerminal();
  */
 std::pair<std::size_t, std::size_t> GetTerminalDimensions();
 
-}
+} // namespace Terra::ConIO

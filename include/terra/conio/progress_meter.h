@@ -1,7 +1,7 @@
 /*
  *  progress_meter.h
  *
- *  Copyright (C) 2024
+ *  Copyright (C) 2024, 2026
  *  Terrapane Corporation
  *  All Rights Reserved
  *
@@ -54,9 +54,16 @@ class ProgressMeter
     public:
         static constexpr std::size_t Default_Maximum_Width = 50;
 
-        ProgressMeter(std::size_t length,
-                      std::size_t maximum_width = Default_Maximum_Width);
-        virtual ~ProgressMeter();
+        explicit ProgressMeter(
+            std::size_t length,
+            std::size_t maximum_width = Default_Maximum_Width);
+        ProgressMeter(const ProgressMeter &other) = default;
+        ProgressMeter(ProgressMeter &&other) noexcept = default;
+        ~ProgressMeter();
+
+        ProgressMeter &operator=(const ProgressMeter &other) = default;
+        ProgressMeter &operator=(ProgressMeter &&other) = default;
+
         bool IsRendering() const noexcept;
         void Start();
         void Update(std::size_t position);
@@ -69,7 +76,7 @@ class ProgressMeter
         std::string MeterFill() const;
 
         bool utf8_capable;
-        const std::size_t length;
+        std::size_t length;
         bool render;
         bool running;
         std::size_t meter_width;

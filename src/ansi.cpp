@@ -1,7 +1,7 @@
 /*
  *  ansi.cpp
  *
- *  Copyright (C) 2024
+ *  Copyright (C) 2024, 2026
  *  Terrapane Corporation
  *  All Rights Reserved
  *
@@ -16,6 +16,9 @@
  *      None.
  */
 
+#include <iostream>
+#include <cstdint>
+#include <string>
 #include <terra/conio/ansi.h>
 
 namespace Terra::ConIO::ANSI

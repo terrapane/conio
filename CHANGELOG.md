@@ -3,6 +3,7 @@
 v1.0.7
 
 - Changes to address clang-tidy nit
+- Updated dependencies
 
 v1.0.6
 

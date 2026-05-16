@@ -1,7 +1,7 @@
 /*
  *  progress_meter.cpp
  *
- *  Copyright (C) 2024
+ *  Copyright (C) 2024, 2026
  *  Terrapane Corporation
  *  All Rights Reserved
  *
@@ -18,14 +18,16 @@
  *      None.
  */
 
-#include <iostream>
-#include <algorithm>
-#if defined(__unix__) || defined(__APPLE__)
-#include <langinfo.h>
-#elif defined (_WIN32)
+#ifdef _WIN32
 #define NOMINMAX
 #include <Windows.h>
+#elif defined(__unix__) || defined(__APPLE__)
+#include <langinfo.h>
 #endif
+#include <iostream>
+#include <algorithm>
+#include <cstddef>
+#include <string>
 #include <terra/conio/progress_meter.h>
 #include <terra/conio/utilities.h>
 #include <terra/conio/ansi.h>
@@ -219,7 +221,7 @@ void ProgressMeter::Update(std::size_t position)
     position = std::min(position, length);
 
     // Get the width of the terminal window (as this might have changed)
-    std::size_t new_meter_width =
+    const std::size_t new_meter_width =
         std::min(GetTerminalDimensions().first, maximum_width);
 
     // If the screen size changed or the position is less than before,
@@ -241,7 +243,7 @@ void ProgressMeter::Update(std::size_t position)
 
     // Determine the meter tip location (note this may be one beyond the
     // meter length, in which case there is no tip to show)
-    std::size_t location = static_cast<std::size_t>(
+    const std::size_t location = static_cast<std::size_t>(
         ((static_cast<double>(position) / static_cast<double>(length)) *
          (static_cast<double>(meter_width) - 2)) +
         1);

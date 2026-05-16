@@ -1,7 +1,7 @@
 /*
  *  utilities.h
  *
- *  Copyright (C) 2024
+ *  Copyright (C) 2024, 2026
  *  Terrapane Corporation
  *  All Rights Reserved
  *
@@ -25,6 +25,8 @@
 #include <cstring>      // For strcmp()
 #include <sys/ioctl.h>
 #endif
+#include <utility>
+#include <cstddef>
 #include <terra/conio/utilities.h>
 
 namespace Terra::ConIO
@@ -176,10 +178,12 @@ std::pair<std::size_t, std::size_t> GetTerminalDimensions()
 
     struct winsize window_size{};
 
+    // NOLINTNEXTLINE(misc-include-cleaner)
     if (ioctl(STDOUT_FILENO, TIOCGWINSZ, &window_size) == 0)
     {
         return {window_size.ws_col, window_size.ws_row};
     }
+    // NOLINTNEXTLINE(misc-include-cleaner)
     if (ioctl(STDERR_FILENO, TIOCGWINSZ, &window_size) == 0)
     {
         return {window_size.ws_col, window_size.ws_row};
