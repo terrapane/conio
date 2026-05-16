@@ -1,7 +1,7 @@
 /*
  *  ansi.h
  *
- *  Copyright (C) 2024
+ *  Copyright (C) 2024, 2026
  *  Terrapane Corporation
  *  All Rights Reserved
  *
@@ -31,6 +31,7 @@
 #include <ostream>
 #include <cstdint>
 #include <string>
+#include <string_view>
 
 namespace Terra::ConIO::ANSI
 {
@@ -87,8 +88,8 @@ enum class SGR : std::uint8_t
     WhiteBG = 47,
     DefaultBG = 49,
 
-    // The following are non-standard, but widely supported.  However, they
-    // can be produced by sending bold + color, as well, and are thus redundant.
+    // The following are non-standard, but widely supported; they can be
+    // produced by sending bold + color, as well, and are thus redundant
     BrightBlackFG = 90,
     BrightRedFG = 91,
     BrightGreenFG = 92,
@@ -122,90 +123,47 @@ enum class Color : std::uint8_t
     Default = 9
 };
 
-// Functions to return strings holding ANSI sequences
-std::string Reset();
-std::string Bold();
-std::string Faint();
-std::string Italic();
-std::string Underline();
-std::string SlowBlink();
-std::string RapidBlink();
-std::string ReverseVideo();
-std::string Conceal();
-std::string Strike();
-std::string DoubleUnderline();
-std::string NormalIntensity();
-std::string NormalFont();
-std::string NoUnderline();
-std::string NoBlink();
-std::string NoReverseVideo();
-std::string NoConceal();
-std::string NoStrike();
-std::string Black();
-std::string Gray();
-std::string Red();
-std::string Green();
-std::string Yellow();
-std::string Blue();
-std::string Magenta();
-std::string Cyan();
-std::string White();
-std::string Default();
-std::string BlackBackground();
-std::string RedBackground();
-std::string GreenBackground();
-std::string YellowBackground();
-std::string BlueBackground();
-std::string MagentaBackground();
-std::string CyanBackground();
-std::string WhiteBackground();
-std::string HideCursor();
-std::string ShowCursor();
-std::string ClearLineToEnd();
-std::string ClearLineAll();
-
-// Functions to ease use of ANSI sequences with streams; Example:
-//      os << ANSI::Red << "Red Text" << ANSI::Reset;
-std::ostream &Reset(std::ostream &os);
-std::ostream &Bold(std::ostream &os);
-std::ostream &Faint(std::ostream &os);
-std::ostream &Italic(std::ostream &os);
-std::ostream &Underline(std::ostream &os);
-std::ostream &SlowBlink(std::ostream &os);
-std::ostream &RapidBlink(std::ostream &os);
-std::ostream &ReverseVideo(std::ostream &os);
-std::ostream &Conceal(std::ostream &os);
-std::ostream &Strike(std::ostream &os);
-std::ostream &DoubleUnderline(std::ostream &os);
-std::ostream &NormalIntensity(std::ostream &os);
-std::ostream &NormalFont(std::ostream &os);
-std::ostream &NoUnderline(std::ostream &os);
-std::ostream &NoBlink(std::ostream &os);
-std::ostream &NoReverseVideo(std::ostream &os);
-std::ostream &NoConceal(std::ostream &os);
-std::ostream &NoStrike(std::ostream &os);
-std::ostream &Black(std::ostream &os);
-std::ostream &Gray(std::ostream &os);
-std::ostream &Red(std::ostream &os);
-std::ostream &Green(std::ostream &os);
-std::ostream &Yellow(std::ostream &os);
-std::ostream &Blue(std::ostream &os);
-std::ostream &Magenta(std::ostream &os);
-std::ostream &Cyan(std::ostream &os);
-std::ostream &White(std::ostream &os);
-std::ostream &Default(std::ostream &os);
-std::ostream &BlackBackground(std::ostream &os);
-std::ostream &RedBackground(std::ostream &os);
-std::ostream &GreenBackground(std::ostream &os);
-std::ostream &YellowBackground(std::ostream &os);
-std::ostream &BlueBackground(std::ostream &os);
-std::ostream &MagentaBackground(std::ostream &os);
-std::ostream &CyanBackground(std::ostream &os);
-std::ostream &WhiteBackground(std::ostream &os);
-std::ostream &HideCursor(std::ostream &os);
-std::ostream &ShowCursor(std::ostream &os);
-std::ostream &ClearLineToEnd(std::ostream &os);
-std::ostream &ClearLineAll(std::ostream &os);
+// Color and style ANSI sequences
+inline constexpr std::string_view Reset = "\033[0m";
+inline constexpr std::string_view Bold = "\033[1m";
+inline constexpr std::string_view Faint = "\033[2m";
+inline constexpr std::string_view Italic = "\033[3m";
+inline constexpr std::string_view Underline = "\033[4m";
+inline constexpr std::string_view SlowBlink = "\033[5m";
+inline constexpr std::string_view RapidBlink = "\033[6m";
+inline constexpr std::string_view ReverseVideo = "\033[7m";
+inline constexpr std::string_view Conceal = "\033[8m";
+inline constexpr std::string_view Strike = "\033[9m";
+inline constexpr std::string_view DoubleUnderline = "\033[21m";
+inline constexpr std::string_view NormalIntensity = "\033[22m";
+inline constexpr std::string_view NormalFont = "\033[23m";
+inline constexpr std::string_view NoUnderline = "\033[24m";
+inline constexpr std::string_view NoBlink = "\033[25m";
+inline constexpr std::string_view NoReverseVideo = "\033[27m";
+inline constexpr std::string_view NoConceal = "\033[28m";
+inline constexpr std::string_view NoStrike = "\033[29m";
+inline constexpr std::string_view Black = "\033[30m";
+inline constexpr std::string_view Gray = "\033[1;30m";
+inline constexpr std::string_view Red = "\033[31m";
+inline constexpr std::string_view Green = "\033[32m";
+inline constexpr std::string_view Yellow = "\033[33m";
+inline constexpr std::string_view Blue = "\033[34m";
+inline constexpr std::string_view Magenta = "\033[35m";
+inline constexpr std::string_view Cyan = "\033[36m";
+inline constexpr std::string_view White = "\033[37m";
+inline constexpr std::string_view Default = "\033[39m";
+inline constexpr std::string_view BlackBackground = "\033[40m";
+inline constexpr std::string_view RedBackground = "\033[41m";
+inline constexpr std::string_view GreenBackground = "\033[42m";
+inline constexpr std::string_view YellowBackground = "\033[43m";
+inline constexpr std::string_view BlueBackground = "\033[44m";
+inline constexpr std::string_view MagentaBackground = "\033[45m";
+inline constexpr std::string_view CyanBackground = "\033[46m";
+inline constexpr std::string_view WhiteBackground = "\033[47m";
+inline constexpr std::string_view HideCursor = "\033[?25l";
+inline constexpr std::string_view ShowCursor = "\033[?25h";
+inline constexpr std::string_view ClearLineToEnd = "\033[0K";
+inline constexpr std::string_view ClearLineAll = "\033[2K";
 
 // Produce the given background color
 std::string Background(Color color);

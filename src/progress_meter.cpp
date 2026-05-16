@@ -185,7 +185,7 @@ void ProgressMeter::Start()
     if (render)
     {
         running = true;
-        std::cout << ANSI::HideCursor() << std::flush;
+        std::cout << ANSI::HideCursor << std::flush;
     }
 }
 
@@ -319,7 +319,7 @@ void ProgressMeter::Stop()
     ClearLine();
 
     // Show the cursor
-    std::cout << ANSI::ShowCursor() << std::flush;
+    std::cout << ANSI::ShowCursor << std::flush;
 }
 
 /*
@@ -384,7 +384,7 @@ void ProgressMeter::ClearLine() const
     if (!render) return;
 
     // Clear the terminal line
-    std::cout << ANSI::ClearLineAll();
+    std::cout << ANSI::ClearLineAll;
 
     // Move the cursor to the start of the line
     std::cout << Carriage_Return;
@@ -437,9 +437,13 @@ std::string ProgressMeter::MeterTip() const
 std::string ProgressMeter::MeterFill() const
 {
     // Render using a block character when using UTF-8
-    if (utf8_capable) return ANSI::Blue() + "\xe2\x96\xa0" + ANSI::Reset();
+    if (utf8_capable)
+    {
+        return std::string(ANSI::Blue) + "\xe2\x96\xa0" +
+               std::string(ANSI::Reset);
+    }
 
-    return ANSI::Blue() + "=" + ANSI::Reset();
+    return std::string(ANSI::Blue) + "=" + std::string(ANSI::Reset);
 }
 
 } // namespace Terra::ConIO
