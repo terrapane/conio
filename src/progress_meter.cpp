@@ -25,6 +25,7 @@
 #include <langinfo.h>
 #endif
 #include <iostream>
+#include <atomic>
 #include <algorithm>
 #include <cstddef>
 #include <string>
@@ -99,7 +100,7 @@ ProgressMeter::ProgressMeter(std::size_t length,
     meter_width = std::min(GetTerminalDimensions().first, maximum_width);
 
     // If the screen cannot support the meter, turn off rendering
-    render = (meter_width >= Minimum_Width);
+    render.store((meter_width >= Minimum_Width), std::memory_order_relaxed);
 
 #ifdef _WIN32
     utf8_capable = (GetConsoleOutputCP() == CP_UTF8);
@@ -128,7 +129,7 @@ ProgressMeter::ProgressMeter(std::size_t length,
  */
 ProgressMeter::~ProgressMeter()
 {
-    if (running) Stop();
+    if (running.load(std::memory_order_relaxed)) Stop();
 }
 
 /*
@@ -154,7 +155,7 @@ ProgressMeter::~ProgressMeter()
  */
 bool ProgressMeter::IsRendering() const noexcept
 {
-    return render;
+    return render.load(std::memory_order_relaxed);
 }
 
 /*
@@ -176,15 +177,19 @@ bool ProgressMeter::IsRendering() const noexcept
 void ProgressMeter::Start()
 {
     // If not rendering or already running, just return
-    if (!render || running) return;
+    if (!render.load(std::memory_order_relaxed) ||
+        running.load(std::memory_order_relaxed))
+    {
+        return;
+    }
 
     // Draw a blank meter
     DrawBlankMeter();
 
     // If rending, note the running state and hide the cursor
-    if (render)
+    if (render.load(std::memory_order_relaxed))
     {
-        running = true;
+        running.store(true, std::memory_order_relaxed);
         std::cout << ANSI::HideCursor << std::flush;
     }
 }
@@ -208,14 +213,17 @@ void ProgressMeter::Start()
  *      Nothing.
  *
  *  Comments:
- *      None.
+ *      There is no concurrency control on most member variables in this class.
+ *      The intent is that Update() would be called only by a single thread.
+ *      Variables that are assumed to be accessed by more than one thread are
+ *      "running" and "rendering" and are therefore made atomic.
  */
 void ProgressMeter::Update(std::size_t position)
 {
     bool redraw_required = false;
 
     // If not running, just return
-    if (!running) return;
+    if (!running.load(std::memory_order_relaxed)) return;
 
     // Constrain the position value to no exceed length
     position = std::min(position, length);
@@ -238,7 +246,7 @@ void ProgressMeter::Update(std::size_t position)
         redraw_required = true;
 
         // Return if no longer able to render
-        if (!render) return;
+        if (!render.load(std::memory_order_relaxed)) return;
     }
 
     // Determine the meter tip location (note this may be one beyond the
@@ -306,14 +314,11 @@ void ProgressMeter::Update(std::size_t position)
  */
 void ProgressMeter::Stop()
 {
-    // If not running, just return
-    if (!running) return;
-
-    // Note that the progress bar is not running
-    running = false;
+    // Stop progress meter and return already if not running
+    if (!running.exchange(false, std::memory_order_relaxed)) return;
 
     // If not rendering anymore (not usual, but can happen on terminal resize)
-    if (!render) return;
+    if (!render.load(std::memory_order_relaxed)) return;
 
     // Clear the progress meter line (if possible)
     ClearLine();
@@ -345,10 +350,10 @@ void ProgressMeter::DrawBlankMeter()
     meter_width = std::min(GetTerminalDimensions().first, maximum_width);
 
     // If the screen cannot support the meter, turn off rendering
-    render = (meter_width >= Minimum_Width);
+    render.store((meter_width >= Minimum_Width), std::memory_order_relaxed);
 
     // If not rendering, return
-    if (!render) return;
+    if (!render.load(std::memory_order_relaxed)) return;
 
     // This will draw an empty meter, with the cursor left at the start of
     // the meter (right after the start character)
@@ -381,7 +386,7 @@ void ProgressMeter::DrawBlankMeter()
 void ProgressMeter::ClearLine() const
 {
     // If not rendering, return
-    if (!render) return;
+    if (!render.load(std::memory_order_relaxed)) return;
 
     // Clear the terminal line
     std::cout << ANSI::ClearLineAll;

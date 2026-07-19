@@ -45,6 +45,7 @@
 #pragma once
 
 #include <cstddef>
+#include <atomic>
 
 namespace Terra::ConIO
 {
@@ -57,12 +58,12 @@ class ProgressMeter
         explicit ProgressMeter(
             std::size_t length,
             std::size_t maximum_width = Default_Maximum_Width);
-        ProgressMeter(const ProgressMeter &other) = default;
-        ProgressMeter(ProgressMeter &&other) noexcept = default;
+        ProgressMeter(const ProgressMeter &other) = delete;
+        ProgressMeter(ProgressMeter &&other) noexcept = delete;
         ~ProgressMeter();
 
-        ProgressMeter &operator=(const ProgressMeter &other) = default;
-        ProgressMeter &operator=(ProgressMeter &&other) = default;
+        ProgressMeter &operator=(const ProgressMeter &other) = delete;
+        ProgressMeter &operator=(ProgressMeter &&other) = delete;
 
         bool IsRendering() const noexcept;
         void Start();
@@ -77,8 +78,8 @@ class ProgressMeter
 
         bool utf8_capable;
         std::size_t length;
-        bool render;
-        bool running;
+        std::atomic<bool> render;
+        std::atomic<bool> running;
         std::size_t meter_width;
         std::size_t maximum_width;
         std::size_t last_position;

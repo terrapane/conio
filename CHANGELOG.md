@@ -1,5 +1,9 @@
 # Change Log
 
+v1.0.8
+
+- Use atomic booleans to ensure proper thread synchronization
+
 v1.0.7
 
 - Changes to address clang-tidy nit
