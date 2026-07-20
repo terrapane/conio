@@ -14,7 +14,8 @@ set_target_properties(test_ansi_capable
 # Specify the compiler options
 target_compile_options(test_ansi_capable
     PRIVATE
-        $<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:AppleClang>,$<CXX_COMPILER_ID:GNU>>: -Wpedantic -Wextra -Wall>
+        $<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:AppleClang>>:-Wpedantic -Wextra -Wall -Werror -Wconversion -Wshadow>
+        $<$<CXX_COMPILER_ID:GNU>:-Wpedantic -Wextra -Wall -Werror -Wconversion -Wshadow=local>
         $<$<CXX_COMPILER_ID:MSVC>:/W4 /WX>)
 
 # Ensure CTest can find the test
